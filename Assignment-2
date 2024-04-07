@@ -1,0 +1,89 @@
+//Write a program for Student Grade Tracker:
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_STUDENTS 100
+#define MAX_ASSIGNMENTS 10
+
+typedef struct {
+    char name[50];
+    int scores[MAX_ASSIGNMENTS];
+    float weighted_score;
+} Student;
+
+typedef struct {
+    char subject[50];
+    char code[10];
+    int num_students;
+    Student students[MAX_STUDENTS];
+    int num_assignments;
+    char assignment_names[MAX_ASSIGNMENTS][50];
+    int assignment_weights[MAX_ASSIGNMENTS];
+} Course;
+
+void add_student(Course *course, const char *name) {
+    if (course->num_students == MAX_STUDENTS) {
+        printf("Error: Maximum number of students reached.\n");
+        return;
+    }
+    strcpy(course->students[course->num_students].name, name);
+    course->num_students++;
+}
+
+void add_assignment(Course *course, const char *name, int weight) {
+    if (course->num_assignments == MAX_ASSIGNMENTS) {
+        printf("Error: Maximum number of assignments reached.\n");
+        return;
+    }
+    strcpy(course->assignment_names[course->num_assignments], name);
+    course->assignment_weights[course->num_assignments] = weight;
+    course->num_assignments++;
+}
+
+void enter_grades(Course *course) {
+    for (int i = 0; i < course->num_students; i++) {
+        Student *student = &course->students[i];
+        printf("Enter grades for student %s:\n", student->name);
+        for (int j = 0; j < course->num_assignments; j++) {
+            printf("%s: ", course->assignment_names[j]);
+            scanf("%d", &student->scores[j]);
+        }
+    }
+}
+
+void calculate_weighted_scores(Course *course) {
+    for (int i = 0; i < course->num_students; i++) {
+        Student *student = &course->students[i];
+        student->weighted_score = 0;
+        for (int j = 0; j < course->num_assignments; j++) {
+            student->weighted_score += student->scores[j] * course->assignment_weights[j];
+        }
+    }
+}
+
+void print_grades(Course *course) {
+    printf("Student Grades:\n");
+    for (int i = 0; i < course->num_students; i++) {
+        Student *student = &course->students[i];
+        printf("%s: %.2f\n", student->name, student->weighted_score);
+    }
+}
+
+int main() {
+    Course course;
+    strcpy(course.code, "CS101");
+    strcpy(course.subject, "Introduction to Computer Science");
+    course.num_students = 0;
+    course.num_assignments = 0;
+
+    add_student(&course, "John Doe");
+    add_student(&course, "Jane Smith");
+    add_assignment(&course, "Assignment 1", 10);
+    add_assignment(&course, "Assignment 2", 20);
+    enter_grades(&course);
+    calculate_weighted_scores(&course);
+    print_grades(&course);
+
+    return 0;
+}
