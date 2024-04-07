@@ -1,0 +1,116 @@
+//Write a program for Library Management System.
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+struct Book 
+{
+    int book_id;
+    char title[100];
+    char author[100];
+    char category[50];
+};
+struct Patron 
+{
+    int patron_id;
+    char name[100];
+    char address[200];
+};
+void addBook(struct Book books[], int *num_books);
+void displayBooks(struct Book books[], int num_books);
+void addPatron(struct Patron patrons[], int *num_patrons);
+void displayPatrons(struct Patron patrons[], int num_patrons);
+
+int main() 
+{
+    struct Book books[100];
+    struct Patron patrons[100];
+    int num_books = 0;
+    int num_patrons = 0;
+    int choice;
+    do 
+    {
+        printf("\nLibrary Management System Menu\n");
+        printf("1. Add Book\n");
+        printf("2. Display Books\n");
+        printf("3. Add Patron\n");
+        printf("4. Display Patrons\n");
+        printf("5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch(choice) 
+        {
+            case 1:
+                addBook(books, &num_books);
+                break;
+            case 2:
+                displayBooks(books, num_books);
+                break;
+            case 3:
+                addPatron(patrons, &num_patrons);
+                break;
+            case 4:
+                displayPatrons(patrons, num_patrons);
+                break;
+            case 5:
+                printf("Exiting...\n");
+                break;
+            default:
+                printf("Invalid choice! Please enter a valid option.\n");
+        }
+    } while(choice!=5);
+    return 0;
+}
+void addBook(struct Book books[], int *num_books) 
+{
+    struct Book new_book;
+    printf("\nEnter Book Details:\n");
+    printf("Book ID: ");
+    scanf("%d", &new_book.book_id);
+    printf("Title: ");
+    scanf(" %[^\n]s", new_book.title);
+    printf("Author: ");
+    scanf(" %[^\n]s", new_book.author);
+    printf("Category: ");
+    scanf(" %[^\n]s", new_book.category);
+    books[*num_books] = new_book;
+    (*num_books)++;
+    printf("Book added successfully!\n");
+}
+void displayBooks(struct Book books[], int num_books) 
+{
+    printf("\nList of Books:\n");
+    for(int i=0;i<num_books;i++) 
+    {
+        printf("Book ID: %d\n", books[i].book_id);
+        printf("Title: %s\n", books[i].title);
+        printf("Author: %s\n", books[i].author);
+        printf("Category: %s\n", books[i].category);
+        printf("\n");
+    }
+}
+void addPatron(struct Patron patrons[], int *num_patrons) 
+{
+    struct Patron new_patron;
+    printf("\nEnter Patron Details:\n");
+    printf("Patron ID: ");
+    scanf("%d", &new_patron.patron_id);
+    printf("Name: ");
+    scanf(" %[^\n]s", new_patron.name);
+    printf("Address: ");
+    scanf(" %[^\n]s", new_patron.address);
+    patrons[*num_patrons] = new_patron;
+    (*num_patrons)++;
+    printf("Patron added successfully!\n");
+}
+void displayPatrons(struct Patron patrons[], int num_patrons) 
+{
+    printf("\nList of Patrons:\n");
+    for (int i=0;i<num_patrons;i++) 
+    {
+        printf("Patron ID: %d\n", patrons[i].patron_id);
+        printf("Name: %s\n", patrons[i].name);
+        printf("Address: %s\n", patrons[i].address);
+        printf("\n");
+    }
+}
