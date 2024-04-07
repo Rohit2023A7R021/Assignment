@@ -1,0 +1,36 @@
+//write a program for Guess the Number Game:
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main() 
+{
+    int secretNumber, guess, attempts = 0;
+    const int maxAttempts = 5;
+    srand(time(0)); 
+    secretNumber = rand() % 100 + 1;
+
+    printf("Welcome to Guess the Number Game!\n");
+    printf("I have chosen a number between 1 and 100. Can you guess it?\n");
+    while (attempts < maxAttempts) 
+    {
+        printf("Enter your guess: ");
+        scanf("%d", &guess);
+        attempts++;
+        if (guess == secretNumber) 
+        {
+            printf("Congratulations! You guessed the number %d correctly in %d attempts!\n", secretNumber, attempts);
+            break;
+        }
+        else if (guess < secretNumber)
+            printf("Too low! ");
+        else
+            printf("Too high! ");
+
+        printf("Attempts left: %d\n", maxAttempts - attempts);
+    }
+    if (attempts == maxAttempts)
+        printf("Sorry, you couldn't guess the number. The correct number was %d.\n", secretNumber);
+
+    return 0;
+}
